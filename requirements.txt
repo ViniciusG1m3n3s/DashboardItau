@@ -1,5 +1,4 @@
-streamlit==1.25.0     # versão atual aproximada
-pandas==2.1.1         # para manipulação de dados
-plotly==5.17.0        # para gráficos interativos
-numpy==1.26.0         # para operações numéricas, se necessário
-openpyxl==3.1.2       # para ler e escrever arquivos Excel
+pandas==2.0.3
+streamlit==1.19.0
+plotly==5.11.0
+importlib-metadata==6.8.0
