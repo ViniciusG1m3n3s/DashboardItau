@@ -5,21 +5,39 @@ import math
 import streamlit as st
 
 def load_data(usuario):
-    pasta_itau = 'Itau'  # Defina o caminho da pasta 'Itau'
-    excel_file = os.path.join(pasta_itau, f'dados_acumulados_{usuario}.xlsx')  # Caminho completo do arquivo
+    # Definindo o diretório atual ou outro caminho desejado
+    excel_file = f'dados_acumulados_{usuario}.xlsx'  # Caminho do arquivo Excel no diretório atual
     if os.path.exists(excel_file):
-        df_total = pd.read_excel(excel_file, engine='openpyxl')
+        try:
+            # Tenta ler o arquivo Excel
+            df_total = pd.read_excel(excel_file, engine='openpyxl')
+        except Exception as e:
+            # Caso ocorra algum erro ao ler o arquivo, exibe a mensagem de erro
+            print(f"Erro ao carregar o arquivo {excel_file}: {e}")
+            df_total = pd.DataFrame(columns=['Protocolo', 'Usuário', 'Status', 'Tempo de Análise', 'Próximo'])
     else:
+        # Caso o arquivo não exista, exibe mensagem e retorna DataFrame vazio
+        print(f"Arquivo não encontrado: {excel_file}")
         df_total = pd.DataFrame(columns=['Protocolo', 'Usuário', 'Status', 'Tempo de Análise', 'Próximo'])
+    
     return df_total
 
 # Função para salvar os dados no Excel do usuário logado
 def save_data(df, usuario):
-    pasta_itau = 'Itau'  # Defina o caminho da pasta 'Itau'
-    excel_file = os.path.join(pasta_itau, f'dados_acumulados_{usuario}.xlsx')  # Caminho completo do arquivo
-    df['Tempo de Análise'] = df['Tempo de Análise'].astype(str)
-    with pd.ExcelWriter(excel_file, engine='openpyxl', mode='w') as writer:
-        df.to_excel(writer, index=False)
+    # Definindo o diretório atual ou outro caminho desejado
+    excel_file = f'dados_acumulados_{usuario}.xlsx'  # Caminho do arquivo Excel no diretório atual
+    try:
+        # Converte a coluna 'Tempo de Análise' para string para evitar erro de tipo
+        df['Tempo de Análise'] = df['Tempo de Análise'].astype(str)
+        
+        # Tenta salvar o DataFrame no arquivo Excel
+        with pd.ExcelWriter(excel_file, engine='openpyxl', mode='w') as writer:
+            df.to_excel(writer, index=False)
+        print(f"Dados salvos com sucesso em {excel_file}")
+    
+    except Exception as e:
+        # Caso ocorra algum erro ao salvar, exibe a mensagem de erro
+        print(f"Erro ao salvar os dados em {excel_file}: {e}")
 
 def calcular_tmo_por_dia(df):
     df['Dia'] = df['Próximo'].dt.date
