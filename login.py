@@ -1,7 +1,7 @@
 import streamlit as st
 
 # Dicionário com usuários e senhas
-usuarios = {"usuario@itau": "senha1", "usuario2@bv": "senha2", "carol@itau": "f1nch", "sidnei@itau": "f1nch"}
+usuarios = {"usuario@itau": "senha1", "usuario2@bv": "senha2", "carol@itau": "f1nch", "sidnei_bosco@itau": "f1nch"}
 
 # Função para autenticar usuário
 def autenticar(usuario, senha):
